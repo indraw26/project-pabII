@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:review_makanan/screens/detail.dart';
 import 'package:review_makanan/screens/favorite.dart';
 import 'package:review_makanan/screens/profile.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(const MainApp());
 }
 

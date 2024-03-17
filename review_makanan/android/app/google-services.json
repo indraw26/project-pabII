@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "837953915617",
+    "project_id": "reviewmakanan-pabii",
+    "storage_bucket": "reviewmakanan-pabii.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837953915617:android:ac1ba3ac83423aa49f45a0",
+        "android_client_info": {
+          "package_name": "com.example.review_makanan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDhIFdmL0LNNlaSq9C5xtLksj0ba77b6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
