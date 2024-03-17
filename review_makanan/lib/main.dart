@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:review_makanan/screens/detail.dart';
+import 'package:review_makanan/screens/favorite.dart';
+import 'package:review_makanan/screens/profile.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,12 +12,51 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "Review Makanan",
+        theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan.shade200),
+            useMaterial3: true),
+        home: MainScreen());
+  }
+}
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _screens = [
+    ProfileScreen(),
+    DetailScreen(),
+    FavoriteScreen(),
+  ];
+
+  void _selectedNavMenu(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _selectedNavMenu,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favorite")
+        ],
       ),
     );
   }
 }
+
