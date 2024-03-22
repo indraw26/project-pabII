@@ -1,13 +1,14 @@
 name: review_makanan
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: ">=3.2.3 <4.0.0"
 
 dependencies:
   firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
   flutter:
     sdk: flutter
 
@@ -18,3 +19,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - images/

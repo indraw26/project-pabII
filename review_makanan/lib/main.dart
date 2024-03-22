@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:review_makanan/screens/detail.dart';
 import 'package:review_makanan/screens/favorite.dart';
+import 'package:review_makanan/screens/home.dart';
+import 'package:review_makanan/screens/login.dart';
 import 'package:review_makanan/screens/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:review_makanan/screens/search.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -21,9 +24,9 @@ class MainApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "Review Makanan",
         theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan.shade200),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink.shade100),
             useMaterial3: true),
-        home: MainScreen());
+        home: LoginScreen());
   }
 }
 class MainScreen extends StatefulWidget {
@@ -37,8 +40,8 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    ProfileScreen(),
-    DetailScreen(),
+    LoginScreen(),
+    SearchScreen(),
     FavoriteScreen(),
   ];
 
@@ -53,6 +56,8 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Color(0xfffc88ff),
         currentIndex: _selectedIndex,
         onTap: _selectedNavMenu,
         items: const <BottomNavigationBarItem>[
