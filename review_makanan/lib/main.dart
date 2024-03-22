@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:review_makanan/screens/detail.dart';
 import 'package:review_makanan/screens/favorite.dart';
 import 'package:review_makanan/screens/home.dart';
-import 'package:review_makanan/screens/login.dart';
+import 'package:review_makanan/screens/signin.dart';
 import 'package:review_makanan/screens/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:review_makanan/screens/search.dart';

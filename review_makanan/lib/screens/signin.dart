@@ -1,5 +1,22 @@
 import 'package:flutter/material.dart';
 
+// class Login extends StatefulWidget {
+//   const Login({super.key});
+
+//   @override
+//   State<Login> createState() => _LoginState();
+// }
+
+// class _LoginState extends State<Login> {
+//   TextEditingController email = TextEditingController();
+//   TextEditingController password = TextEditingController();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Placeholder();
+//   }
+// }
+
 class LoginScreen extends StatelessWidget {  @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,12 +57,10 @@ class LoginScreen extends StatelessWidget {  @override
                     height: 50,
                     width: 300,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10  ),
+                      borderRadius: BorderRadius.circular(10),
                       color: Color.fromARGB(255, 187, 0, 255)
                     ),
-                    child: Center(
-                      child: Text('Login',style: TextStyle(color: Colors.white,fontSize: 20),),
-                    ),
+                      child: ElevatedButton(onPressed: (null), child: Text("Login",style: TextStyle(color: Colors.white,fontSize: 20),),),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top:20.0),
