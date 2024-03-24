@@ -27,7 +27,7 @@ class MainApp extends StatelessWidget {
         theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink.shade100),
             useMaterial3: true),
-        home: SignUp());
+        home: LoginScreen());
   }
 }
 class MainScreen extends StatefulWidget {
