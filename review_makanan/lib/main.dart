@@ -6,6 +6,7 @@ import 'package:review_makanan/screens/signin.dart';
 import 'package:review_makanan/screens/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:review_makanan/screens/search.dart';
+import 'package:review_makanan/screens/signup.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -26,7 +27,7 @@ class MainApp extends StatelessWidget {
         theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink.shade100),
             useMaterial3: true),
-        home: LoginScreen());
+        home: SignUp());
   }
 }
 class MainScreen extends StatefulWidget {
@@ -40,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    LoginScreen(),
+    SignUp(),
     SearchScreen(),
     FavoriteScreen(),
   ];
