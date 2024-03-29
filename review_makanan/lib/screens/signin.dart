@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:review_makanan/providers/auth.dart';
+import 'package:review_makanan/screens/favorite.dart';
 import 'package:review_makanan/screens/home.dart';
+import 'package:review_makanan/screens/profile.dart';
 import 'package:review_makanan/screens/signup.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -81,7 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           await _auth.signInWithEmailAndPassword(
                               email, password);
 
-                          // Show successful login notification
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Login successful!'),
@@ -92,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomeScreen()),
+                                builder: (context) => MainScreen()),
                           );
                         } on FirebaseAuthException catch (e) {
                           print(e.message);
@@ -126,6 +127,47 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ))
+        ],
+      ),
+    );
+  }
+}
+
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _screens = [
+    HomeScreen(),
+    FavoriteScreen(),
+    ProfileScreen(),
+  ];
+
+  void _selectedNavMenu(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Color(0xfffc88ff),
+        currentIndex: _selectedIndex,
+        onTap: _selectedNavMenu,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favorite")
         ],
       ),
     );
