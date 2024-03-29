@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:review_makanan/screens/detail.dart';
 import 'package:review_makanan/screens/favorite.dart';
@@ -12,7 +13,7 @@ import 'firebase_options.dart';
 void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
+  );
   runApp(const MainApp());
 }
 
@@ -27,9 +28,24 @@ class MainApp extends StatelessWidget {
         theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink.shade100),
             useMaterial3: true),
-        home: LoginScreen());
+        home: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasData) {
+                return HomeScreen();
+              } else if (snapshot.hasError) {
+                return const MaterialApp(
+                  home: Text("Terjadi Kesalahan"),
+                );
+              } else {
+                return LoginScreen();
+              }
+            }));
   }
 }
+
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -70,4 +86,3 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
-

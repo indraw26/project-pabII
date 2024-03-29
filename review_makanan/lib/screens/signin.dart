@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:review_makanan/providers/auth.dart';
+import 'package:review_makanan/screens/home.dart';
+import 'package:review_makanan/screens/signup.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -90,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginScreen()),
+                                builder: (context) => HomeScreen()),
                           );
                         } on FirebaseAuthException catch (e) {
                           print(e.message);
@@ -110,9 +112,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.only(top: 20.0),
                   child: Column(
                     children: [
-                      Text(
-                        "Doesn't Have Account? Register Here",
-                        style: TextStyle(color: Colors.blue, fontSize: 16),
+                      TextButton(
+                        child: Text("Doesn't Have Account? Register Here"),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const SignUp()
+                            ));
+                        },
                       ),
                     ],
                   ),
