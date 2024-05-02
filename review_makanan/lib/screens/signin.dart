@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               child: Image.asset(
@@ -29,26 +30,35 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 400,
               ),
             ),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Email',
+            Container(
+              width: 450,
+              child: TextField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                    color: Color.fromARGB(255, 187, 0, 255),
+                  )),
+                  labelText: 'Email',
+                ),
               ),
             ),
             SizedBox(
               height: 10.0,
             ),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                suffixIcon: Icon(
-                  Icons.visibility_off,
-                  color: Colors.grey,
+            Container(
+              width: 450,
+              child: TextField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  suffixIcon: Icon(
+                    Icons.visibility_off,
+                    color: Colors.grey,
+                  ),
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
                 ),
-                border: OutlineInputBorder(),
-                labelText: 'Password',
               ),
             ),
             const SizedBox(height: 16.0),
