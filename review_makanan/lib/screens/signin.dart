@@ -61,7 +61,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 16.0),
             Container(
                 margin: EdgeInsets.only(top: 30.0),
                 height: 50,
@@ -80,7 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 )),
-            const SizedBox(height: 8.0),
             TextButton(
               child: const Text('Belum punya akun? Daftar di sini'),
               onPressed: () {
@@ -151,8 +149,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         onTap: _selectedNavMenu,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favorite")
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favorite"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
         ],
       ),
     );
