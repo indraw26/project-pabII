@@ -15,6 +15,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +31,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 400,
               ),
             ),
-            Container(
+            SizedBox(
               width: 450,
               child: TextField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(
                       borderSide: BorderSide(
                     color: Color.fromARGB(255, 187, 0, 255),
@@ -43,38 +44,44 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10.0,
             ),
-            Container(
+            SizedBox(
               width: 450,
               child: TextField(
                 controller: _passwordController,
-                obscureText: true,
+                obscureText: _obscureText,
                 decoration: InputDecoration(
-                  suffixIcon: Icon(
-                    Icons.visibility_off,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
                     color: Colors.grey,
                   ),
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   labelText: 'Password',
                 ),
               ),
             ),
             Container(
-                margin: EdgeInsets.only(top: 30.0),
+                margin: const EdgeInsets.only(top: 30.0),
                 height: 50,
                 width: 300,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(255, 187, 0, 255)),
+                    color: const Color.fromARGB(255, 187, 0, 255)),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 187, 0, 255)),
+                      backgroundColor: const Color.fromARGB(255, 187, 0, 255)),
                   onPressed: () {
                     _login();
                   },
-                  child: Text(
+                  child: const Text(
                     "Login",
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
@@ -99,13 +106,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Login successful!'),
             backgroundColor: Colors.green,
           ),
         );
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => BottomNavBar()));
+            MaterialPageRoute(builder: (context) => const BottomNavBar()));
       }
     } on FirebaseAuthException catch (e) {
       if (mounted) {
@@ -144,12 +151,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Color(0xfffc88ff),
+        backgroundColor: const Color(0xfffc88ff),
         currentIndex: _selectedIndex,
         onTap: _selectedNavMenu,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favorite"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: "Favorite"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
         ],
       ),

@@ -24,13 +24,13 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Review Makanan",
-        theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.pink.shade100,
-              primary: Colors.black ,
-              secondary: Colors.white
-              ),
-            useMaterial3: true),
+        // theme: ThemeData(
+        //     colorScheme: ColorScheme.fromSeed(
+        //       seedColor: Colors.pink.shade100,
+        //       primary: Colors.black ,
+        //       secondary: Colors.white
+        //       ),
+        //     useMaterial3: true),
         home: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {

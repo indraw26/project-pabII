@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:review_makanan/screens/detail.dart';
+import 'package:review_makanan/screens/settings.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
+        title: const Center(
           child: Text(
             'Beranda',
             style: TextStyle(color: Colors.white),
           ),
         ),
         actions: [
-          Padding(
-            padding: EdgeInsets.all(12.0),
-            child: Icon(Icons.settings, color: Colors.white),
-          ),
+          IconButton(
+            icon: const Icon(Icons.settings,color: Colors.white,),
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const SettingScreen()));
+            },
+          )
         ],
         backgroundColor: Color(0xfffc88ff),
       ),
