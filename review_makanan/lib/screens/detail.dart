@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:review_makanan/models/restaurant.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
+  final Restaurant? resto;
+  const DetailScreen({super.key, this.resto});
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Detail'),
-      ),
-      body: Center(
-        child: Text('Detail Screen'),
-      ),
+    return const Center(
+      child: Text('Halo'),
     );
   }
 }

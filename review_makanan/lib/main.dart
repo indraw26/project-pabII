@@ -1,12 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:review_makanan/screens/detail.dart';
-import 'package:review_makanan/screens/favorite.dart';
 import 'package:review_makanan/screens/home.dart';
 import 'package:review_makanan/screens/signin.dart';
-import 'package:review_makanan/screens/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:review_makanan/screens/signup.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -37,13 +33,13 @@ class MainApp extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
               } else if (snapshot.hasData) {
-                return LoginScreen();
+                return const HomeScreen();
               } else if (snapshot.hasError) {
                 return const MaterialApp(
                   home: Text("Terjadi Kesalahan"),
                 );
               } else {
-                return LoginScreen();
+                return const HomeScreen();
               }
             }));
   }

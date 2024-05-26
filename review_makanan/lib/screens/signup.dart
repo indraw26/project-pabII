@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:review_makanan/providers/auth.dart';
-import 'package:review_makanan/screens/home.dart';
 import 'package:review_makanan/screens/signin.dart';
 
 class SignUp extends StatefulWidget {
@@ -38,10 +37,10 @@ class _SignUpState extends State<SignUp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 30, right: 30),
+              padding: const EdgeInsets.only(left: 30, right: 30),
               child: TextFormField(
                 controller: _usernameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Username',
                   border: OutlineInputBorder(),
                 ),
@@ -54,10 +53,10 @@ class _SignUpState extends State<SignUp> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(left: 30, right: 30, top: 20),
+              padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
               child: TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                 ),
@@ -74,11 +73,11 @@ class _SignUpState extends State<SignUp> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(left: 30, right: 30, top: 20),
+              padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
               child: TextFormField(
                 controller: _passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
@@ -92,13 +91,13 @@ class _SignUpState extends State<SignUp> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.only(top: 20, bottom: 20),
-                backgroundColor: Color.fromARGB(255, 187, 0, 255),
+                padding: const EdgeInsets.only(top: 20, bottom: 20),
+                backgroundColor: const Color.fromARGB(255, 187, 0, 255),
               ),
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
@@ -110,7 +109,7 @@ class _SignUpState extends State<SignUp> {
                     await _auth.signUpWithEmailAndPassword(email, password);
 
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                           content: Text('Register Success'),
                           backgroundColor: Colors.green),
                     );
@@ -126,8 +125,8 @@ class _SignUpState extends State<SignUp> {
                   }
                 }
               },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 170),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 170),
                 child: Text(
                   'Register',
                   style: TextStyle(fontSize: 17, color: Colors.white),
@@ -137,7 +136,7 @@ class _SignUpState extends State<SignUp> {
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: TextButton(
-                child: Text('Already Have Account? Back to Login'),
+                child: const Text('Sudah Punya Akun? Kembali Ke Login'),
                 onPressed: () {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => LoginScreen()));
