@@ -62,29 +62,28 @@ class _TambahRestoScreenState extends State<TambahRestoScreen> {
         } else {
           await RestaurantService.updateRestaurant(newRestaurant);
         }
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Restorant berhasil Tambah!'),
+            content: Text('Restoran berhasil ditambahkan!'),
             backgroundColor: Colors.green,
           ),
         );
 
-        Navigator.of(context).pop();
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.of(context).pop();
+        });
       } catch (e) {
-        setState(() {});
-
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to save restorant: $e'),
+            content: Text('Failed to save restaurant: $e'),
             backgroundColor: Colors.red,
           ),
         );
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-        );
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.of(context).pop();
+        });
       }
     }
   }
@@ -95,7 +94,7 @@ class _TambahRestoScreenState extends State<TambahRestoScreen> {
       appBar: AppBar(
         title: const Center(
           child: Text(
-            'Tambah Restorant',
+            'Tambah Restoran',
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -123,7 +122,7 @@ class _TambahRestoScreenState extends State<TambahRestoScreen> {
                 child: ListView(
                   children: [
                     const Text(
-                      'Nama Restorant',
+                      'Nama Restoran',
                       style: TextStyle(
                         fontSize: 16,
                       ),
@@ -136,14 +135,14 @@ class _TambahRestoScreenState extends State<TambahRestoScreen> {
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Masukkan Nama Restorant";
+                          return "Masukkan Nama Restoran";
                         }
                         return null;
                       },
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'Alamat Restorant',
+                      'Alamat Restoran',
                       style: TextStyle(
                         fontSize: 16,
                       ),
@@ -156,7 +155,7 @@ class _TambahRestoScreenState extends State<TambahRestoScreen> {
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Masukkan Alamat Restorant";
+                          return "Masukkan Alamat Restoran";
                         }
                         return null;
                       },
@@ -193,29 +192,7 @@ class _TambahRestoScreenState extends State<TambahRestoScreen> {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () async {
-                        String? imageUrl;
-                        if (_imageFile != null) {
-                          imageUrl = await RestaurantService.uploadImage(_imageFile!);
-                        } else {
-                          imageUrl = widget.resto?.imageUrl;
-                        }
-                        Restaurant resto = Restaurant(
-                          id: widget.resto?.id,
-                          nama: _namaController.text,
-                          alamat: _alamatController.text,
-                          imageUrl: imageUrl,
-                          createdAt: widget.resto?.createdAt,
-                        );
-
-                        if (widget.resto == null) {
-                          RestaurantService.addRestaurant(resto)
-                              .whenComplete(() => Navigator.of(context).pop());
-                        } else {
-                          RestaurantService.updateRestaurant(resto)
-                              .whenComplete(() => Navigator.of(context).pop());
-                        }
-                      },
+                      onPressed: _submitForm,
                       child: Text(widget.resto == null ? 'Add' : 'Update'),
                     ),
                   ],

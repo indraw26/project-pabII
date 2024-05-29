@@ -19,16 +19,16 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings,color: Colors.white,),
+            icon: const Icon(Icons.settings, color: Colors.white),
             onPressed: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const SettingScreen()));
             },
           )
         ],
-        backgroundColor: Color(0xfffc88ff),
+        backgroundColor: const Color(0xfffc88ff),
       ),
-      body: RestorantScreen(),
+      body: const RestorantScreen(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
@@ -44,6 +44,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
 class RestorantScreen extends StatelessWidget {
   const RestorantScreen({super.key});
 
@@ -62,35 +63,64 @@ class RestorantScreen extends StatelessWidget {
             );
           default:
             return ListView(
-              padding: const EdgeInsets.only(bottom: 80),
-              children: snapshot.data!.map((document) {
-                return Card(
-                  child: InkWell(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return DetailScreen(resto: document);
-                        },
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        document.imageUrl != null && Uri.parse(document.imageUrl!).isAbsolute
-                            ? ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(16),
-                                  topRight: Radius.circular(16),
-                                ),
-                                child: Image.network(
-                                  document.imageUrl!,
-                                  alignment: Alignment.center,
-                                  width: 50,
-                                  height: 50,
-                                ),
-                              )
-                            : Container(),
-                      ],
+              padding: const EdgeInsets.only(bottom: 20),
+              children: snapshot.data!.map<Widget>((document) {
+                return SizedBox(  
+                  child: Card(
+                    child: InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return DetailScreen(resto: document);
+                          },
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          document.imageUrl != null &&
+                                  Uri.parse(document.imageUrl!).isAbsolute
+                              ? ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(16),
+                                    bottomLeft: Radius.circular(16),
+                                  ),
+                                  child: Image.network(
+                                    document.imageUrl!,
+                                    alignment: Alignment.center,
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : Container(),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    document.nama,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    document.alamat,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -98,6 +128,6 @@ class RestorantScreen extends StatelessWidget {
             );
         }
       },
-    );;
+    );
   }
 }
