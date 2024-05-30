@@ -66,60 +66,65 @@ class RestorantScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 20),
               children: snapshot.data!.map<Widget>((document) {
                 return SizedBox(  
-                  child: Card(
-                    child: InkWell(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return DetailScreen(resto: document);
-                          },
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          document.imageUrl != null &&
-                                  Uri.parse(document.imageUrl!).isAbsolute
-                              ? ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(16),
-                                    bottomLeft: Radius.circular(16),
-                                  ),
-                                  child: Image.network(
-                                    document.imageUrl!,
-                                    alignment: Alignment.center,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              : Container(),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    document.nama,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
+                  child: Container(
+                    height: 150,
+                    margin: EdgeInsets.symmetric(horizontal: 70.0, vertical: 14.0),
+                    child: Card(
+                      color: const Color(0xfffc88ff),
+                      child: InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return DetailScreen(resto: document);
+                            },
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            document.imageUrl != null &&
+                                    Uri.parse(document.imageUrl!).isAbsolute
+                                ? ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(16),
+                                      bottomLeft: Radius.circular(16),
                                     ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    document.alamat,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey,
+                                    child: Image.network(
+                                      document.imageUrl!,
+                                      alignment: Alignment.center,
+                                      height: 150,
+                                      width: 200,
+                                      fit: BoxFit.cover,
                                     ),
-                                  ),
-                                ],
+                                  )
+                                : Container(),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      document.nama,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      document.alamat,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

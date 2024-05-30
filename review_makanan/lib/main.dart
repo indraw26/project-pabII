@@ -33,13 +33,13 @@ class MainApp extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
               } else if (snapshot.hasData) {
-                return const HomeScreen();
+                return const LoginScreen();
               } else if (snapshot.hasError) {
                 return const MaterialApp(
                   home: Text("Terjadi Kesalahan"),
                 );
               } else {
-                return const HomeScreen();
+                return const LoginScreen();
               }
             }));
   }
