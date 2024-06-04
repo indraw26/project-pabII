@@ -20,6 +20,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _noHpController = TextEditingController();
+  final TextEditingController _uidController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -40,6 +41,7 @@ class _SignUpState extends State<SignUp> {
         String password = _passwordController.text;
         String name = _nameController.text;
         String noHp = _noHpController.text;
+        String uid = _uidController.text;
 
         UserCredential userCredential = await _auth.signUpWithEmailAndPassword(email, password);
         User? user = userCredential.user;
@@ -49,6 +51,7 @@ class _SignUpState extends State<SignUp> {
             'email': email,
             'name': name,
             'noHp': noHp,
+            'uid': uid,
           });
 
           ScaffoldMessenger.of(context).showSnackBar(

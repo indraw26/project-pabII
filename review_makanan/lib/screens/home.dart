@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:review_makanan/models/restaurant.dart';
 import 'package:review_makanan/screens/detail.dart';
+import 'package:review_makanan/screens/menu.dart';
 import 'package:review_makanan/services/restaurant_services.dart';
-import 'package:review_makanan/widgets/restaurant.dart';
+import 'package:review_makanan/widgets/widget_restaurant.dart';
 import 'package:review_makanan/screens/settings.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -21,8 +23,8 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.settings, color: Colors.white),
             onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const SettingScreen()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const SettingScreen()));
             },
           )
         ],
@@ -50,11 +52,13 @@ class RestorantScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<List<Restaurant>>(
       stream: RestaurantService.getRestaurantList(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
         }
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -64,33 +68,35 @@ class RestorantScreen extends StatelessWidget {
           default:
             return ListView(
               padding: const EdgeInsets.only(bottom: 20),
-              children: snapshot.data!.map<Widget>((document) {
-                return SizedBox(  
+              children: snapshot.data!.map<Widget>((restaurant) {
+                return SizedBox(
                   child: Container(
                     height: 150,
-                    margin: EdgeInsets.symmetric(horizontal: 70.0, vertical: 14.0),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 70.0, vertical: 14.0),
                     child: Card(
                       color: const Color(0xfffc88ff),
                       child: InkWell(
                         onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return DetailScreen(resto: document);
-                            },
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  MenuRestoScreen(resto: restaurant),
+                            ),
                           );
                         },
                         child: Row(
                           children: [
-                            document.imageUrl != null &&
-                                    Uri.parse(document.imageUrl!).isAbsolute
+                            restaurant.imageUrl != null &&
+                                    Uri.parse(restaurant.imageUrl!).isAbsolute
                                 ? ClipRRect(
                                     borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(16),
                                       bottomLeft: Radius.circular(16),
                                     ),
                                     child: Image.network(
-                                      document.imageUrl!,
+                                      restaurant.imageUrl!,
                                       alignment: Alignment.center,
                                       height: 150,
                                       width: 200,
@@ -105,7 +111,7 @@ class RestorantScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      document.nama,
+                                      restaurant.nama,
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -113,11 +119,10 @@ class RestorantScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      document.alamat,
+                                      restaurant.alamat,
                                       style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500
-                                      ),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ],
                                 ),

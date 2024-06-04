@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:review_makanan/models/menu.dart';
 import 'package:review_makanan/models/restaurant.dart';
 import 'package:path/path.dart' as path;
 
@@ -10,6 +11,8 @@ class RestaurantService {
   static final FirebaseFirestore _database = FirebaseFirestore.instance;
   static final CollectionReference _RestaurantCollection =
       _database.collection('Restorant');
+  static final CollectionReference _menuCollection =
+      _database.collection('menuItems');
   static final FirebaseStorage _storage = FirebaseStorage.instance;
 
   static Future<void> addRestaurant(Restaurant restaurant) async {
@@ -74,5 +77,17 @@ class RestaurantService {
     } catch (e) {
       return null;
     }
+  }
+
+  static Stream<List<MenuItem>> getMenuItems(String restaurantId) {
+    return _menuCollection
+        .where('restaurant_id', isEqualTo: restaurantId)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return MenuItem.fromMap(data, doc.id);
+      }).toList();
+    });
   }
 }
