@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:review_makanan/screens/signin.dart';
+import 'package:review_makanan/services/favorite_service.dart';
 import 'package:review_makanan/widgets/widget_profile.dart';
-import 'signin.dart';
 
 class ProfileScreen extends StatelessWidget {
   final User? user = FirebaseAuth.instance.currentUser;
@@ -97,17 +98,18 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => EditProfileScreen())
-                            );
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => EditProfileScreen()));
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Colors.purple[600],
+                            backgroundColor: Colors.purple[600],
                           ),
-                          child: const Text('Edit Profile', style: TextStyle(
-                            color: Colors.white,
-                          ),),
+                          child: const Text(
+                            'Edit Profile',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -125,9 +127,9 @@ class ProfileScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       foregroundColor: Colors.white,
-                      minimumSize:Size(200, 50),
+                      minimumSize: Size(200, 50),
                     ),
-                    child:const Text('Logout'),
+                    child: const Text('Logout'),
                   ),
                 ],
               ),

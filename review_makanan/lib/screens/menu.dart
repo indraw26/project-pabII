@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:review_makanan/models/menu.dart';
 import 'package:review_makanan/models/restaurant.dart';
 import 'package:review_makanan/services/menu_service.dart';
+import 'package:review_makanan/services/favorite_service.dart';
 import 'package:review_makanan/widgets/widget_menu.dart';
 
-class MenuRestoScreen extends StatelessWidget {
+class MenuRestoScreen extends StatefulWidget {
   final Restaurant resto;
 
   const MenuRestoScreen({super.key, required this.resto});
 
   @override
+  _MenuRestoScreenState createState() => _MenuRestoScreenState();
+}
+
+class _MenuRestoScreenState extends State<MenuRestoScreen> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(resto.nama),
+        title: Text(widget.resto.nama),
         backgroundColor: const Color(0xfffc88ff),
       ),
       floatingActionButton: FloatingActionButton(
@@ -21,7 +27,7 @@ class MenuRestoScreen extends StatelessWidget {
           showDialog(
             context: context,
             builder: (context) {
-              return TambahMenuScreen(restaurantId: resto.id!);
+              return TambahMenuScreen(restaurantId: widget.resto.id!);
             },
           );
         },
@@ -29,7 +35,7 @@ class MenuRestoScreen extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
       body: StreamBuilder<List<MenuItem>>(
-        stream: MenuService.getMenuItemsByRestaurant(resto.id!),
+        stream: MenuService.getMenuItemsByRestaurant(widget.resto.id!),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -57,8 +63,7 @@ class MenuRestoScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        resto.nama,
-                        style: Theme.of(context).textTheme.headline6,
+                        widget.resto.nama,
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -67,7 +72,6 @@ class MenuRestoScreen extends StatelessWidget {
                       const SizedBox(height: 16),
                       Text(
                         'Menu',
-                        style: Theme.of(context).textTheme.headline6,
                       ),
                       const SizedBox(height: 8),
                       GridView.builder(
@@ -83,53 +87,77 @@ class MenuRestoScreen extends StatelessWidget {
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           final menuItem = snapshot.data![index];
-                          return Card(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Image.network(
-                                    menuItem.imageUrl,
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        menuItem.name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle1,
+                          return FutureBuilder<bool>(
+                            future: FavoriteService.isFavorite(menuItem),
+                            builder: (context, favoriteSnapshot) {
+                              if (favoriteSnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                              bool isFavorite = favoriteSnapshot.data ?? false;
+                              return Card(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Image.network(
+                                        menuItem.imageUrl,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
                                       ),
-                                      Text(
-                                        menuItem.description,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '${menuItem.price} \$',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText2,
+                                            menuItem.name,
                                           ),
-                                          const Icon(Icons.favorite_border),
+                                          Text(
+                                            menuItem.description,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                '${menuItem.price} \$',
+                                              ),
+                                              IconButton(
+                                                icon: Icon(
+                                                  isFavorite
+                                                      ? Icons.favorite
+                                                      : Icons.favorite_border,
+                                                  color: isFavorite
+                                                      ? Colors.red
+                                                      : null,
+                                                ),
+                                                onPressed: () async {
+                                                  if (isFavorite) {
+                                                    await FavoriteService
+                                                        .removeFavorite(
+                                                            menuItem);
+                                                  } else {
+                                                    await FavoriteService
+                                                        .addFavorite(menuItem);
+                                                  }
+                                                  // Update the UI
+                                                  setState(() {});
+                                                },
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              );
+                            },
                           );
                         },
                       ),
