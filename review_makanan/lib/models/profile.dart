@@ -4,14 +4,19 @@ class Users {
   String email;
   String phone;
 
-  Users({required this.uid, required this.name, required this.email, required this.phone});
+  Users({
+    required this.uid,
+    required this.name,
+    required this.email,
+    required this.phone,
+  });
 
   factory Users.fromMap(Map<String, dynamic> data) {
     return Users(
-      uid: data['uid'],
-      name: data['name'],
-      email: data['email'],
-      phone: data['phone'],
+      uid: data['uid'] ?? '',
+      name: data['name'] ?? 'Anonymous',
+      email: data['email'] ?? '',
+      phone: data['phone'] ?? '',
     );
   }
 

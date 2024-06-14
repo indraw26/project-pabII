@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:review_makanan/models/menu.dart';
+import 'package:review_makanan/screens/settings.dart';
 import 'package:review_makanan/services/favorite_service.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -33,7 +34,21 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorites'),
+        title: const Center(
+          child: Text(
+            'Favorite',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings, color: Colors.white),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const SettingScreen()));
+            },
+          )
+        ],
         backgroundColor: const Color(0xfffc88ff),
       ),
       body: FutureBuilder<List<MenuItem>>(

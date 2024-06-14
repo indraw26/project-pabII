@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:review_makanan/models/menu.dart';
 import 'package:review_makanan/models/restaurant.dart';
-import 'package:review_makanan/services/menu_service.dart';
+import 'package:review_makanan/screens/comment.dart';
 import 'package:review_makanan/services/favorite_service.dart';
+import 'package:review_makanan/services/menu_service.dart';
 import 'package:review_makanan/widgets/widget_menu.dart';
 
 class MenuRestoScreen extends StatefulWidget {
@@ -97,64 +100,74 @@ class _MenuRestoScreenState extends State<MenuRestoScreen> {
                                 );
                               }
                               bool isFavorite = favoriteSnapshot.data ?? false;
-                              return Card(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Image.network(
-                                        menuItem.imageUrl,
-                                        fit: BoxFit.cover,
-                                        width: double.infinity,
-                                      ),
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CommentScreen(menuItem: menuItem),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            menuItem.name,
-                                          ),
-                                          Text(
-                                            menuItem.description,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '${menuItem.price} \$',
-                                              ),
-                                              IconButton(
-                                                icon: Icon(
-                                                  isFavorite
-                                                      ? Icons.favorite
-                                                      : Icons.favorite_border,
-                                                  color: isFavorite
-                                                      ? Colors.red
-                                                      : null,
+                                  );
+                                },
+                                child: Card(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Image.network(
+                                          menuItem.imageUrl,
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              menuItem.name,
+                                            ),
+                                            Text(
+                                              menuItem.description,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '${menuItem.price} \$',
                                                 ),
-                                                onPressed: () async {
-                                                  if (isFavorite) {
-                                                    await FavoriteService
-                                                        .removeFavorite(
-                                                            menuItem);
-                                                  } else {
-                                                    await FavoriteService
-                                                        .addFavorite(menuItem);
-                                                  }
-                                                  // Update the UI
-                                                  setState(() {});
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                                IconButton(
+                                                  icon: Icon(
+                                                    isFavorite
+                                                        ? Icons.favorite
+                                                        : Icons.favorite_border,
+                                                    color: isFavorite
+                                                        ? Colors.red
+                                                        : null,
+                                                  ),
+                                                  onPressed: () async {
+                                                    if (isFavorite) {
+                                                      await FavoriteService
+                                                          .removeFavorite(
+                                                              menuItem);
+                                                    } else {
+                                                      await FavoriteService
+                                                          .addFavorite(menuItem);
+                                                    }
+                                                    // Update the UI
+                                                    setState(() {});
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               );
                             },
