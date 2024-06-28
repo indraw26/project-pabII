@@ -7,6 +7,7 @@ import 'package:review_makanan/screens/comment.dart';
 import 'package:review_makanan/services/favorite_service.dart';
 import 'package:review_makanan/services/menu_service.dart';
 import 'package:review_makanan/widgets/widget_menu.dart';
+import 'package:intl/intl.dart';
 
 class MenuRestoScreen extends StatefulWidget {
   final Restaurant resto;
@@ -105,13 +106,15 @@ class _MenuRestoScreenState extends State<MenuRestoScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => CommentScreen(menuItem: menuItem),
+                                      builder: (context) =>
+                                          CommentScreen(menuItem: menuItem),
                                     ),
                                   );
                                 },
                                 child: Card(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         child: Image.network(
@@ -134,10 +137,11 @@ class _MenuRestoScreenState extends State<MenuRestoScreen> {
                                             ),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
-                                                  '${menuItem.price} \$',
+                                                  '${NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0).format(menuItem.price)}',
                                                 ),
                                                 IconButton(
                                                   icon: Icon(
@@ -155,7 +159,8 @@ class _MenuRestoScreenState extends State<MenuRestoScreen> {
                                                               menuItem);
                                                     } else {
                                                       await FavoriteService
-                                                          .addFavorite(menuItem);
+                                                          .addFavorite(
+                                                              menuItem);
                                                     }
                                                     // Update the UI
                                                     setState(() {});

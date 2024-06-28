@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:review_makanan/screens/settings.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class EditProfileScreen extends StatefulWidget {
   @override
@@ -46,17 +47,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile'),
-        backgroundColor: Colors.purple[300],
+        title: const Text('Edit Profile'),
+        backgroundColor: Color(0xfffc88ff),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const SettingScreen()));
@@ -69,22 +70,48 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           children: [
             Container(
               width: double.infinity,
-              color: Colors.purple[300],
-              padding: EdgeInsets.only(top: 40, bottom: 20),
+              decoration: BoxDecoration(
+                color:  Color(0xfffc88ff),
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+              ),
+              padding: const EdgeInsets.only(top: 40, bottom: 20),
               child: Column(
                 children: [
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.person,
-                      size: 50,
-                      color: Colors.purple[300],
+                    child: ClipOval(
+                      child: CachedNetworkImage(
+                        imageUrl: user?.photoURL ?? '',
+                        placeholder: (context, url) => Icon(
+                          Icons.person,
+                          size: 50,
+                          color: Colors.purple[400],
+                        ),
+                        errorWidget: (context, url, error) => Icon(
+                          Icons.person,
+                          size: 50,
+                          color: Colors.purple[400],
+                        ),
+                        fit: BoxFit.cover,
+                        width: 100,
+                        height: 100,
+                      ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 80,
-                  )
+                  const SizedBox(height: 10),
+                  Text(
+                    user?.email ?? '',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -92,53 +119,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Text('Nama : ', style: TextStyle(fontSize: 18)),
-                      Expanded(
-                        child: TextField(
-                          controller: _nameController,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.purple[50],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Text('No Telp : ', style: TextStyle(fontSize: 18)),
-                      Expanded(
-                        child: TextField(
-                          controller: _phoneController,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.purple[50],
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 40),
+                  buildTextField("Nama", _nameController),
+                  const SizedBox(height: 20),
+                  buildTextField("No Telp", _phoneController),
+                  const SizedBox(height: 40),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
                       onPressed: _saveProfile,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.purple[600], // Background color
+                        backgroundColor: Color(0xfffc88ff),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
                       ),
                       child: const Text(
                         'Simpan',
@@ -155,6 +150,38 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildTextField(String labelText, TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          labelText,
+          style: const TextStyle(fontSize: 18),
+        ),
+        const SizedBox(height: 8),
+        TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.purple[50],
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(color: Colors.purple[200]!),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(color: Colors.purple[400]!),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
